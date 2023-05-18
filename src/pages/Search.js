@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavTitle from "../components/NavTitle";
+import CardNews from "../components/CardNews";
+import CardLoading from "../components/CardLoading";
+import InputSearch from "../components/InputSearch";
 
 function Search() {
   const [data, setData] = useState([]);
-  const [query, setQuery] = useState("jokowi");
-  const [displayedCount, setDisplayedCount] = useState(2);
+  const [query, setQuery] = useState("");
+  const [displayedCount, setDisplayedCount] = useState(8);
+  const [hits, setHits] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [countLoading, setCountLoading] = useState(8);
 
   useEffect(() => {
     fetchAllData();
@@ -20,6 +25,7 @@ function Search() {
       );
       setLoading(false);
       const allDataNews = response.data.response.docs;
+      setHits(response.data.response.meta.hits);
       setData(allDataNews);
     } catch (e) {
       console.log(e);
@@ -28,39 +34,56 @@ function Search() {
   };
 
   const handleShowMore = () => {
-    setDisplayedCount(displayedCount + 2);
+    setDisplayedCount(displayedCount + 8);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchAllData();
+  };
+
+  const handleLinkClick = (e) => {
+    e.preventDefault();
+    window.open(e.target.href, "_blank");
   };
 
   const displayedData = data.slice(0, displayedCount);
+  const hasMoreData = displayedCount < data.length;
 
-  console.log(data);
   return (
     <div className="container">
       <NavTitle />
-      <form className="mb-3">
-        <div className="input-group input-search">
-          <input
-            type="search"
-            className="form-control form-input form-search disable-focus-shadow"
-            id="floatingInput"
-            placeholder="Search"
-          />
-          <button className="input-group-text btn-search">
-            <i className="bi bi-search"></i>
-          </button>
+      <InputSearch
+        handleSubmit={handleSubmit}
+        hits={hits}
+        setQuery={setQuery}
+      />
+      <div className="row">
+        {!loading
+          ? displayedData.map((item) => (
+              <CardNews
+                key={item._id}
+                item={item}
+                handleLinkClick={handleLinkClick}
+              />
+            ))
+          : Array.from({ length: countLoading }, (_, i) => (
+              <CardLoading key={i} />
+            ))}
+        <div className="d-flex justify-content-center my-4">
+          {hasMoreData ? (
+            <button
+              className="btn btn-secondary btn-show-more"
+              onClick={handleShowMore}
+            >
+              Show More
+            </button>
+          ) : (
+            <button className="btn btn-secondary btn-show-more" disabled>
+              Show More
+            </button>
+          )}
         </div>
-      </form>
-      <div>
-        {/* Tampilkan data */}
-        {displayedData.map((item) => (
-          <div key={item._id}>
-            {/* Tampilkan konten data */}
-            <h2>{item.headline.main}</h2>
-            <p>{item.abstract}</p>
-          </div>
-        ))}
-        {/* Tombol "show more" */}
-        <button onClick={handleShowMore}>Show More</button>
       </div>
     </div>
   );

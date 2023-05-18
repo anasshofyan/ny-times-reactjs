@@ -3,9 +3,10 @@
 // Colors
 $white-color: #fff;
 $dark-color: #111;
-$gray-color: #ededed;
+$gray-color: #999;
 
 // Font Size
+$font-size-extra-small: 0.8rem;
 $font-size-small: 1rem;
 $font-size-medium: 1.2rem;
 $font-size-large: 1.5rem;
@@ -15,19 +16,44 @@ $font-size-large: 1.5rem;
   margin: 0;
 }
 
-.text-serif {
+.f-serif {
   font-family: "Playfair Display", serif;
 }
 
-.text-sans-serif {
+.f-sans-serif {
   font-family: "Open Sans", sans-serif;
 }
 
 $font-sizes: (
+  xs: $font-size-extra-small,
   sm: $font-size-small,
   md: $font-size-medium,
   lg: $font-size-large,
 );
+
+$colors: (
+  white: $white-color,
+  dark: $dark-color,
+  gray: $gray-color,
+);
+
+$font-weight: (
+  normal: 400,
+  medium: 500,
+  bold: 700,
+);
+
+@each $weight, $value in $font-weight {
+  .fw-#{$weight} {
+    font-weight: $value;
+  }
+}
+
+@each $color, $value in $colors {
+  .color-#{$color} {
+    color: $value;
+  }
+}
 
 @each $size, $value in $font-sizes {
   .f-#{$size} {
@@ -57,4 +83,37 @@ $font-sizes: (
   box-shadow: none !important;
   border-color: #000000 !important;
   outline: none !important;
+}
+
+.card-news {
+  border-radius: 0;
+  border: none;
+
+  &-img-news {
+    height: 200px;
+    object-fit: cover;
+  }
+  &-text-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; // Maksimal 2 baris
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+  }
+  &-text-title:hover {
+    color: $dark-color;
+  }
+  &-text-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; // Maksimal 2 baris
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.btn-show-more {
+  border-radius: 0;
+  background-color: $dark-color;
 }
