@@ -18,7 +18,7 @@ function NavTitle() {
       <hr />
       <div className="pb-4 d-flex justify-content-between">
         <strong className="text-sans-serif f-sm">{currentDate}</strong>
-        <span className="text-sans-serif f-sm">Indonesia</span>
+        <span className="text-sans-serif f-sm">United States</span>
       </div>
     </div>
   );
