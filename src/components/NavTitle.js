@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
 import moment from "moment";
 import LogoNyTimes from "../assets/images/logo_nytimes.png";
 
 function NavTitle() {
   const currentDate = moment().format("dddd, MMMM DD, YYYY");
+  console.log(process.env);
 
   return (
     <div>
@@ -18,7 +18,7 @@ function NavTitle() {
       <hr />
       <div className="pb-4 d-flex justify-content-between">
         <strong className="text-sans-serif f-sm">{currentDate}</strong>
-        <span className="text-sans-serif f-sm">Indonesian</span>
+        <span className="text-sans-serif f-sm">Indonesia</span>
       </div>
     </div>
   );
