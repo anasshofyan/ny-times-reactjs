@@ -4,6 +4,8 @@ import NavTitle from "../components/NavTitle";
 import CardNews from "../components/CardNews";
 import CardLoading from "../components/CardLoading";
 import InputSearch from "../components/InputSearch";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 function Search() {
   const [data, setData] = useState([]);
@@ -28,8 +30,14 @@ function Search() {
       setHits(response.data.response.meta.hits);
       setData(allDataNews);
     } catch (e) {
-      console.log(e.message);
-      console.log(e.request.statusText);
+      toast.error(`${e.message} (${e.request.statusText})`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       setLoading(false);
     }
   };
@@ -53,6 +61,7 @@ function Search() {
 
   return (
     <div className="container">
+      <ToastContainer />
       <NavTitle />
       <InputSearch
         handleSubmit={handleSubmit}
