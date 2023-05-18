@@ -7,7 +7,7 @@ const CardNews = ({ item, handleLinkClick }) => {
       <div className="card card-news">
         <img
           className="img-fluid card-news-img-news"
-          src={`${process.env.REACT_APP_NY_TIMES_IMG_URL}${item.multimedia[0].url}`}
+          src={`${process.env.REACT_APP_NY_TIMES_IMG_URL}${item?.multimedia[0]?.url}`}
           alt=""
         />
         <div className="d-flex justify-content-between my-1">
@@ -19,7 +19,7 @@ const CardNews = ({ item, handleLinkClick }) => {
           </span>
         </div>
         <a
-          href={item.web_url}
+          href={item?.web_url}
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleLinkClick}
