@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import '../src/assets/scss/style.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Search from './pages/Search';

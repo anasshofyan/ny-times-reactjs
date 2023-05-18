@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap");
+
+// Colors
+$white-color: #fff;
+$dark-color: #111;
+$gray-color: #ededed;
+
+// Font Size
+$font-size-small: 1rem;
+$font-size-medium: 1.2rem;
+$font-size-large: 1.5rem;
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.text-serif {
+  font-family: "Playfair Display", serif;
+}
+
+.text-sans-serif {
+  font-family: "Open Sans", sans-serif;
+}
+
+$font-sizes: (
+  sm: $font-size-small,
+  md: $font-size-medium,
+  lg: $font-size-large,
+);
+
+@each $size, $value in $font-sizes {
+  .f-#{$size} {
+    font-size: $value;
+  }
+}
+
+.input-search {
+  .form-input {
+    border-radius: 0 !important;
+  }
+  .btn-search {
+    background-color: $dark-color;
+    color: $white-color;
+    border: $dark-color;
+    border-radius: 0 !important;
+
+    &:hover {
+      background-color: $gray-color;
+      color: $white-color;
+      border: $dark-color;
+    }
+  }
+}
+
+.disable-focus-shadow:focus {
+  box-shadow: none !important;
+  border-color: #000000 !important;
+  outline: none !important;
+}
