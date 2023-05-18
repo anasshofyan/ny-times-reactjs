@@ -28,7 +28,8 @@ function Search() {
       setHits(response.data.response.meta.hits);
       setData(allDataNews);
     } catch (e) {
-      console.log(e);
+      console.log(e.message);
+      console.log(e.request.statusText);
       setLoading(false);
     }
   };

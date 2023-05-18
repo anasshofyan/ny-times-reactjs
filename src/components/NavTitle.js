@@ -3,7 +3,6 @@ import LogoNyTimes from "../assets/images/logo_nytimes.png";
 
 function NavTitle() {
   const currentDate = moment().format("dddd, MMMM DD, YYYY");
-  console.log(process.env);
 
   return (
     <div>
