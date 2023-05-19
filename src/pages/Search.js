@@ -100,7 +100,7 @@ function Search() {
           </div>
         </section>
       ) : (
-        <div className="d-flex justify-content-center">
+        <section className="d-flex justify-content-center">
           <div className="text-center">
             <img
               src={ICEmpty}
@@ -111,7 +111,7 @@ function Search() {
               Showing <strong>{hits}</strong> results
             </p>
           </div>
-        </div>
+        </section>
       )}
     </div>
   );
