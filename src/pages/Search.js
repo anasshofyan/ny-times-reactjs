@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavTitle from "../components/NavTitle";
+import ICEmpty from "../assets/images/ic_empty.png";
 import CardNews from "../components/CardNews";
 import CardLoading from "../components/CardLoading";
 import InputSearch from "../components/InputSearch";
@@ -68,33 +69,50 @@ function Search() {
         hits={hits}
         setQuery={setQuery}
       />
-      <div className="row">
-        {!loading
-          ? displayedData.map((item) => (
-              <CardNews
-                key={item._id}
-                item={item}
-                handleLinkClick={handleLinkClick}
-              />
-            ))
-          : Array.from({ length: countLoading }, (_, i) => (
-              <CardLoading key={i} />
-            ))}
-        <div className="d-flex justify-content-center my-4">
-          {hasMoreData ? (
-            <button
-              className="btn btn-secondary btn-show-more"
-              onClick={handleShowMore}
-            >
-              Show More
-            </button>
-          ) : (
-            <button className="btn btn-secondary btn-show-more" disabled>
-              Show More
-            </button>
-          )}
+      {hits !== 0 ? (
+        <section>
+          <div className="row">
+            {!loading
+              ? displayedData.map((item) => (
+                  <CardNews
+                    key={item._id}
+                    item={item}
+                    handleLinkClick={handleLinkClick}
+                  />
+                ))
+              : Array.from({ length: countLoading }, (_, i) => (
+                  <CardLoading key={i} />
+                ))}
+            <div className="d-flex justify-content-center my-4">
+              {hasMoreData ? (
+                <button
+                  className="btn btn-secondary btn-show-more"
+                  onClick={handleShowMore}
+                >
+                  Show More
+                </button>
+              ) : (
+                <button className="btn btn-secondary btn-show-more" disabled>
+                  Show More
+                </button>
+              )}
+            </div>
+          </div>
+        </section>
+      ) : (
+        <div className="d-flex justify-content-center">
+          <div className="text-center">
+            <img
+              src={ICEmpty}
+              className="img-fluid img-search"
+              alt="IC Empty"
+            />
+            <p className="f-sm f-sans-serif mt-3">
+              Showing <strong>{hits}</strong> results
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
