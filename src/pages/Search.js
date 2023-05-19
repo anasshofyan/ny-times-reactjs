@@ -14,7 +14,7 @@ function Search() {
   const [displayedCount, setDisplayedCount] = useState(8);
   const [hits, setHits] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [countLoading, setCountLoading] = useState(8);
+  const [countLoading] = useState(8);
   const [hasMoresData, setHasMoresData] = useState(false);
 
   useEffect(() => {
@@ -31,11 +31,12 @@ function Search() {
     const allDataNews = response.data.response.docs;
     setHits(response.data.response.meta.hits);
 
-    // Jika page > 0, tambahkan data baru ke data yang sudah ada
     setData((prevData) => (page > 0 ? [...prevData, ...allDataNews] : allDataNews));
 
     if (allDataNews.length === 0) {
       setHasMoresData(false);
+    } else {
+      setHasMoresData(true);
     }
   } catch (e) {
     toast.error(`${e.message} (${e.request.statusText})`, {
@@ -49,10 +50,6 @@ function Search() {
     setLoading(false);
   }
 };
-
-  const handleShowMore = () => {
-    setDisplayedCount(displayedCount + 8);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -98,12 +95,22 @@ function Search() {
                   <CardLoading key={i} />
                 ))}
             <div className="d-flex justify-content-center my-4">
-                <button
+              {hasMoresData ?
+            <button
                   className="btn btn-secondary btn-show-more"
                   onClick={handleShowMores}
                 >
                   Show More
                 </button>
+                :
+                <button
+                  className="btn btn-secondary btn-show-more"
+                  disabled
+                >
+                  Show More
+                </button>
+            }
+                
             </div>
           </div>
         </section>
