@@ -15,33 +15,40 @@ function Search() {
   const [hits, setHits] = useState(0);
   const [loading, setLoading] = useState(false);
   const [countLoading, setCountLoading] = useState(8);
+  const [hasMoresData, setHasMoresData] = useState(false);
 
   useEffect(() => {
     fetchAllData();
   }, []);
 
-  const fetchAllData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_NY_TIMES_API_BASE_URL}articlesearch.json?q=${query}&api-key=${process.env.REACT_APP_NY_TIMES_API_KEYS}`
-      );
-      setLoading(false);
-      const allDataNews = response.data.response.docs;
-      setHits(response.data.response.meta.hits);
-      setData(allDataNews);
-    } catch (e) {
-      toast.error(`${e.message} (${e.request.statusText})`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      setLoading(false);
+  const fetchAllData = async (page = 0) => {
+  setLoading(true);
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_NY_TIMES_API_BASE_URL}articlesearch.json?q=${query}&api-key=${process.env.REACT_APP_NY_TIMES_API_KEYS}&page=${page}`
+    );
+    setLoading(false);
+    const allDataNews = response.data.response.docs;
+    setHits(response.data.response.meta.hits);
+
+    // Jika page > 0, tambahkan data baru ke data yang sudah ada
+    setData((prevData) => (page > 0 ? [...prevData, ...allDataNews] : allDataNews));
+
+    if (allDataNews.length === 0) {
+      setHasMoresData(false);
     }
-  };
+  } catch (e) {
+    toast.error(`${e.message} (${e.request.statusText})`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    setLoading(false);
+  }
+};
 
   const handleShowMore = () => {
     setDisplayedCount(displayedCount + 8);
@@ -60,6 +67,13 @@ function Search() {
   const displayedData = data.slice(0, displayedCount);
   const hasMoreData = displayedCount < data.length;
 
+  const handleShowMores = () => {
+  setDisplayedCount(displayedCount + 8);
+  if (!hasMoreData) {
+    const nextPage = Math.floor(displayedCount / 8) + 1;
+    fetchAllData(nextPage);
+  }
+};
   return (
     <div className="container">
       <ToastContainer />
@@ -84,18 +98,12 @@ function Search() {
                   <CardLoading key={i} />
                 ))}
             <div className="d-flex justify-content-center my-4">
-              {hasMoreData ? (
                 <button
                   className="btn btn-secondary btn-show-more"
-                  onClick={handleShowMore}
+                  onClick={handleShowMores}
                 >
                   Show More
                 </button>
-              ) : (
-                <button className="btn btn-secondary btn-show-more" disabled>
-                  Show More
-                </button>
-              )}
             </div>
           </div>
         </section>
